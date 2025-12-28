@@ -58,7 +58,7 @@ export default function LagunaMap() {
           icon={greenIcon}
         >
           <Popup>
-            <h3>{station.station}</h3>
+            <h3 className="font-semibold mb-2">{station.station}</h3>
             <ul>
               <li>DO: {station.DO} mg/L</li>
               <li>pH: {station.pH}</li>
