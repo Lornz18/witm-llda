@@ -133,21 +133,10 @@ export default function Home() {
         </div>
 
         {/* Map Container */}
-        <div className="relative z-0 h-[70vh] bg-gray-50 overflow-y-auto">
+        <div className="relative z-0 h-[81vh] bg-gray-50 overflow-y-auto rounded-b-2xl">
           {activeTab === "map" && (
             <>
               <LagunaMap />
-              <div className="absolute bottom-4 left-4 bg-white rounded-lg shadow-lg p-4 max-w-xs">
-                <h3 className="font-semibold text-gray-900 mb-2 flex items-center">
-                  <MapPin className="w-4 h-4 mr-2 text-blue-600" />
-                  Interactive Features
-                </h3>
-                <ul className="text-sm text-gray-600 space-y-1">
-                  <li>• Click markers to view station details</li>
-                  <li>• Hover for real-time parameter values</li>
-                  <li>• Color-coded water quality indicators</li>
-                </ul>
-              </div>
             </>
           )}
           {activeTab === "stations" && (
@@ -185,9 +174,9 @@ export default function Home() {
               </p>
             </div>
           )}
-        </div>
 
-        {/* Legend */}
+           {/* Legend */}
+        {activeTab === "map" && (
         <div className="bg-white rounded-b-xl shadow-md border-t-0 border border-gray-100 p-6">
           <h3 className="text-sm font-semibold text-gray-900 mb-3">
             Water Quality Legend
@@ -211,7 +200,11 @@ export default function Home() {
             </div>
           </div>
         </div>
+        )}
       </div>
+        </div>
+
+       
 
       {/* Footer */}
       <footer className="bg-white border-t border-gray-200 mt-12">
