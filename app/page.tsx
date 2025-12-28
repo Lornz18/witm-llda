@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Droplets, Info, MapPin, TrendingUp, AlertCircle } from "lucide-react";
 import dynamic from "next/dynamic";
+import { useEffect } from "react";
 
 const LagunaMap = dynamic(() => import("@/components/LagunaMap"), {
   ssr: false,
@@ -25,8 +26,22 @@ export default function Home() {
       status: "normal",
       icon: AlertCircle,
     },
-    { label: "Active Stations", value: "12", status: "online", icon: MapPin },
+    { label: "Active Stations", value: "11", status: "online", icon: MapPin },
   ];
+
+  type Station = {
+  station: string;
+  image: string;
+  desc: string;
+};
+
+   const [stations, setStations] = useState<Station[]>([]);
+  
+    useEffect(() => {
+      fetch("/data/water_quality.json")
+        .then((res) => res.json())
+        .then((data) => setStations(data));
+    }, []);
 
   return (
     <div className="min-h-screen bg-linear-to-br from-slate-50 via-blue-50 to-cyan-50">
@@ -35,11 +50,11 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="bg-linear-to-br from-blue-500 to-cyan-600 p-3 rounded-xl shadow-lg">
-                <Droplets className="w-8 h-8 text-white" />
+              <div>
+                <img src="/images/logo.png" alt="logo" width={56} height={56} />
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">
+                <h1 className="text-xl md:text-2xl font-bold text-gray-900">
                   Laguna Lake Water Quality
                 </h1>
                 <p className="text-sm text-gray-600 mt-1">
@@ -100,7 +115,7 @@ export default function Home() {
         {/* Navigation Tabs */}
         <div className="bg-white rounded-t-xl shadow-md border border-gray-100 overflow-hidden relative z-20">
           <div className="flex border-b border-gray-200 bg-white">
-            {["map", "stations", "parameters"].map((tab) => (
+            {["map", "stations"].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -118,7 +133,7 @@ export default function Home() {
         </div>
 
         {/* Map Container */}
-        <div className="relative z-0 h-[70vh] bg-gray-50">
+        <div className="relative z-0 h-[70vh] bg-gray-50 overflow-y-auto">
           {activeTab === "map" && (
             <>
               <LagunaMap />
@@ -140,9 +155,24 @@ export default function Home() {
               <h2 className="text-xl font-semibold text-gray-900 mb-4">
                 Monitoring Stations
               </h2>
-              <p className="text-gray-600">
-                Station list and details will be displayed here
-              </p>
+               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mb-6">
+                {stations.map((station, key) => (
+              <div
+              key={key}
+                className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow p-5 border border-gray-100"
+              >
+                <p className="font-semibold text-gray-900 mb-4">{station.station}</p>
+                <div className="flex flex-col items-center gap-5">
+                  <div>
+                    <img src={station.image} alt="station" className="w-[300px] h-[200px] rounded-xl object-cover"/>
+                  </div>
+                  <div>
+                    <p className=" text-gray-900 text-sm">{station.desc}</p>
+                  </div>
+                </div>
+              </div>
+                ))}
+              </div>
             </div>
           )}
           {activeTab === "parameters" && (
