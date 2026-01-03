@@ -153,7 +153,7 @@ export default function Home() {
                 <p className="font-semibold text-gray-900 mb-4">{station.station}</p>
                 <div className="flex flex-col items-center gap-5">
                   <div>
-                    <img src={station.image} alt="station" className="w-[300px] h-[200px] rounded-xl object-cover"/>
+                    <img src={station.image} alt="station" className="w-75 h-50 rounded-xl object-cover"/>
                   </div>
                   <div>
                     <p className=" text-gray-900 text-sm">{station.desc}</p>
